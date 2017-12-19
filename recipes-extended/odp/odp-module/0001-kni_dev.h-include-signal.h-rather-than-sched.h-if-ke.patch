@@ -1,0 +1,42 @@
+From 6378cc1867d8a99b40319f4d34f202f347a31ddb Mon Sep 17 00:00:00 2001
+From: Yanjiang Jin <yanjiang.jin@windriver.com>
+Date: Tue, 19 Dec 2017 07:10:32 +0000
+Subject: [PATCH] kni_dev.h: include signal.h rather than sched.h if
+ kernel_version is big than 4.10
+
+In kernel.org, 'commit 3f07c0144132 ("sched/headers: Prepare for new
+header dependencies before moving code to <linux/sched/signal.h>")'
+has split <linux/sched/signal.h> out of <linux/sched.h>.
+
+This patch is to fix the below build error:
+odp-module/git-r0/git/kern/kni_net.c: In function 'kni_net_process_request':
+odp-module/git-r0/git/kern/kni_net.c:601:6: error:
+implicit declaration of function 'signal_pending';
+   if (signal_pending(current) || ret_val <= 0) {
+       ^~~~~~~~~~~~~~
+
+Signed-off-by: Yanjiang Jin <yanjiang.jin@windriver.com>
+---
+ kern/kni_dev.h | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/kern/kni_dev.h b/kern/kni_dev.h
+index 5a67eae0..92282d69 100644
+--- a/kern/kni_dev.h
++++ b/kern/kni_dev.h
+@@ -27,7 +27,12 @@
+ 
+ #include <linux/if.h>
+ #include <linux/wait.h>
++#include <linux/version.h>
++#if LINUX_VERSION_CODE < KERNEL_VERSION(4,11,0)
+ #include <linux/sched.h>
++#else
++#include <linux/sched/signal.h>
++#endif
+ #include <linux/netdevice.h>
+ #include <linux/spinlock.h>
+ #include <linux/list.h>
+-- 
+2.13.3
+
