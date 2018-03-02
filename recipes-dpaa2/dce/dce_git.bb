@@ -11,7 +11,7 @@ SRCREV_qbman = "75ff61a7ca6acdbdbb780161b053cbcbc990f1be"
 
 S = "${WORKDIR}/git"
 
-EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"'
+EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC}"'
 
 do_install () {
     oe_runmake install DESTDIR=${D}
