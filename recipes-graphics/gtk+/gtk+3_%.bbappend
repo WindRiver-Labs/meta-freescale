@@ -1,5 +1,5 @@
 PACKAGECONFIG_remove_imxgpu2d = " \
-    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "x11", "", d)} \
+    ${@bb.utils.contains("DISTRO_FEATURES", "x11 wayland", "wayland", "", d)} \
 "
 
 CFLAGS_append_imxgpu2d = " \
