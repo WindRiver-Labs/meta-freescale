@@ -8,10 +8,6 @@ SRC_URI_prepend_imxgpu2d = "git://source.codeaurora.org/external/imx/weston-imx.
 SRCREV_imxgpu2d = "506dc2d69b7cf7b7e7d1ea94ce29c8203215a67e"
 S_imxgpu2d = "${WORKDIR}/git"
 
-# Define RECIPE_SYSROOT since it doesn't exist in morty
-# for this backported recipe
-RECIPE_SYSROOT = "${STAGING_DIR}/${MACHINE}"
-
 EXTRA_OECONF_IMX_COMMON = "WESTON_NATIVE_BACKEND=fbdev-backend.so"
 EXTRA_OECONF_IMX          = ""
 EXTRA_OECONF_IMX_imxpxp   = "${EXTRA_OECONF_IMX_COMMON}"
