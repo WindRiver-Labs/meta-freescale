@@ -31,7 +31,7 @@ python () {
     ml = d.getVar("MULTILIB_VARIANTS", True)
     arch = d.getVar("OVERRIDES", True)
 
-    if "e5500-64b:" in arch or "e6500-64b:" in arch:
+    if "e5500:" in arch or "e6500:" in arch:
         if not "lib32" in ml:
             raise bb.parse.SkipPackage("Building the u-boot for this arch requires multilib to be enabled")
         sys_multilib = d.getVar('TARGET_VENDOR') + 'mllib32-linux'
