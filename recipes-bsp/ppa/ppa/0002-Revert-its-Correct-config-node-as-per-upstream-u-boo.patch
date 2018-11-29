@@ -1,0 +1,34 @@
+From ada2556fa31142f122a1e0dae2422e76c7b48d94 Mon Sep 17 00:00:00 2001
+From: Jiang Lu <lu.jiang@windriver.com>
+Date: Thu, 29 Nov 2018 15:34:07 +0800
+Subject: [PATCH] Revert "its: Correct config node as per upstream u-boot
+ guideline"
+
+This reverts commit 1c4fc7890d8bfb8c9e4001142d3bb7056c1b3f81.
+
+Change configuration node name to config@1 to compatiable with
+current uboot-qoriq U-Boot 2017.07+fsl+gc249f5f072.
+
+Signed-off-by: Jiang Lu <lu.jiang@windriver.com>
+---
+ ppa/common/gen_its | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ppa/common/gen_its b/ppa/common/gen_its
+index 2d25382..5cee5cf 100755
+--- a/ppa/common/gen_its
++++ b/ppa/common/gen_its
+@@ -72,8 +72,8 @@ fi
+ printf "	};\n" >> $1
+ printf "\n" >> $1
+ printf "	configurations {\n" >> $1
+-printf "		default = \"config-1\";\n" >> $1
+-printf "		config-1 {\n" >> $1
++printf "		default = \"config@1\";\n" >> $1
++printf "		config@1 {\n" >> $1
+ printf "			description = \"PPA Secure firmware\";\n" >> $1
+ printf "			firmware = \"firmware@1\";\n" >> $1
+ if [[ "$2" = "spd=on" && "$3" = "fuse=on" ]]; then
+-- 
+2.14.4
+

@@ -8,8 +8,9 @@ inherit deploy
 
 SRC_URI = "git://github.com/qoriq-open-source/ppa-generic.git;nobranch=1 \
     file://0001-fix-path-error.patch \
+    file://0002-Revert-its-Correct-config-node-as-per-upstream-u-boo.patch \
 "
-SRCREV = "92b208b0dbb5a47b06627ec62824cb5790b3f482"
+SRCREV = "dcbe27bb5d1f769ca2c061a3d4241aa2d13dc19e"
 
 S = "${WORKDIR}/git"
 
