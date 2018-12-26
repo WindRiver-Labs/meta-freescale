@@ -14,7 +14,8 @@ git://source.codeaurora.org/external/qoriq/qoriq-components/qbman_userspace;nobr
 git://source.codeaurora.org/external/qoriq/qoriq-components/flib;nobranch=1;name=rta;destsuffix=git/platform/linux-dpaa2/flib/rta \
 "
 
-SRC_URI += "file://0001-Fix-this-build-error.patch"
+SRC_URI += "file://0001-Fix-this-build-error.patch \
+	    file://0002-fsl_mc_sys.h-drop-no-existed-file-libio.h.patch"
 
 SRCREV = "0bda2c9736a72ef41a411e193bc31487ecce6731"
 
