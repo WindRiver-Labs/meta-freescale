@@ -1,0 +1,31 @@
+From b71c8040085d9c18224411e846910a9a75581903 Mon Sep 17 00:00:00 2001
+From: Xulin Sun <xulin.sun@windriver.com>
+Date: Wed, 26 Dec 2018 14:30:45 +0800
+Subject: [PATCH] fsl_mc_sys.h: drop no existed file libio.h
+
+To fix below build error:
+
+| ../../../platform/linux-dpaa2/flib/mc/fsl_mc_sys.h:54:10: fatal error: libio.h: No such file or directory
+|  #include <libio.h>
+|           ^~~~~~~~~
+
+Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+---
+ platform/linux-dpaa2/flib/mc/fsl_mc_sys.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/platform/linux-dpaa2/flib/mc/fsl_mc_sys.h b/platform/linux-dpaa2/flib/mc/fsl_mc_sys.h
+index 0613ce4..0192a41 100644
+--- a/platform/linux-dpaa2/flib/mc/fsl_mc_sys.h
++++ b/platform/linux-dpaa2/flib/mc/fsl_mc_sys.h
+@@ -51,7 +51,6 @@ struct fsl_mc_io {
+ 
+ #else /* __linux_driver__ */
+ #include <stdio.h>
+-#include <libio.h>
+ #include <stdint.h>
+ #include <errno.h>
+ #include <sys/uio.h>
+-- 
+2.7.4
+
