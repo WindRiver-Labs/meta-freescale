@@ -7,6 +7,7 @@ DEPENDS += "u-boot-mkimage-native dtc-native"
 inherit deploy
 
 SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/ppa-generic;nobranch=1 \
+	   file://0001-build-disable-parallelism-target-build.patch \
 "
 SRCREV = "90e13c9e148972f75f5f2e7f7a904dabf1586049"
 

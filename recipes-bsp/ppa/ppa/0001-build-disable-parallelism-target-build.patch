@@ -1,0 +1,32 @@
+From 0672f7140b12447cf4484b9ab45c113ec6f2f97d Mon Sep 17 00:00:00 2001
+From: Xulin Sun <xulin.sun@windriver.com>
+Date: Mon, 27 May 2019 11:22:58 +0800
+Subject: [PATCH] build: disable parallelism target build
+
+In a few rare cases, the ppa compile will be failure with
+"Waiting for unfinished jobs" output. Apparently multiple
+sub-makes parallel execute, and it's hard to reproduce this issue
+to see which dependency has a problem. So disable the parallel build
+to make build much more reliable.
+
+Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+---
+ ppa/build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ppa/build b/ppa/build
+index 3c5eb66..c6097bb 100755
+--- a/ppa/build
++++ b/ppa/build
+@@ -668,7 +668,7 @@ until [ "$1" = "" ]; do
+         echo >> ../bldlog.txt
+         echo $action $bld_mode $target [$make_opts $test_opt ] $device$trailer >> ../bldlog.txt
+ 
+-        make -j24 $target $make_opts $test_opt personality=$persona >> ../bldlog.txt
++        make -j1 $target $make_opts $test_opt personality=$persona >> ../bldlog.txt
+     fi
+     cd ..
+ 
+-- 
+2.7.4
+
