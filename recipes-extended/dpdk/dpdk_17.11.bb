@@ -100,5 +100,9 @@ FILES_${PN}-dev += "${datadir}/mk ${datadir}/scripts \
 "
 FILES_${PN}-examples += "${datadir}/examples"
 
-FILES_${PN}-staticdev += "/usr/share/dpdk/cmdif/lib/*.a"
+FILES_${PN}-staticdev += "/usr/share/dpdk/cmdif/lib/*.a \
+    /usr/share/examples/cmdif/lib/arm64-dpaa-linuxapp-gcc/*.a \
+    /usr/share/examples/cmdif/lib/arm64-dpaa-linuxapp-gcc/lib/*.a \
+"
+
 COMPATIBLE_MACHINE = "(ls2080ardb|ls2084ardb|ls2088a|ls1043a|ls1046a|ls1088a)"
