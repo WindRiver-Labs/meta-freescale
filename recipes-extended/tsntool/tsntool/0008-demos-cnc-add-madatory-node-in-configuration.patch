@@ -1,0 +1,92 @@
+From 3c9419c983f368a543648b0781e384f53cd45caa Mon Sep 17 00:00:00 2001
+From: Xiaolin He <xiaolin.he@nxp.com>
+Date: Mon, 2 Dec 2019 17:40:44 +0800
+Subject: [PATCH 08/15] demos:cnc: add madatory node in configuration
+
+Netopeer2 implement datastore based on sysrepo, and sysrepo will
+check the format of xml instance strict. Including striction on
+mandatory nodes.
+
+Signed-off-by: Xiaolin He <xiaolin.he@nxp.com>
+---
+ demos/cnc/cnc.py | 21 +++++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
+
+diff --git a/demos/cnc/cnc.py b/demos/cnc/cnc.py
+index 90d09d1..1fc64ec 100644
+--- a/demos/cnc/cnc.py
++++ b/demos/cnc/cnc.py
+@@ -54,6 +54,7 @@ def loadnetconfqbv(configdata):
+     interfaces.set('xmlns', 'urn:ietf:params:xml:ns:yang:ietf-interfaces');
+     interfaces.set('xmlns:sched', 'urn:ieee:std:802.1Q:yang:ieee802-dot1q-sched');
+     interfaces.set('xmlns:preempt', 'urn:ieee:std:802.1Q:yang:ieee802-dot1q-preemption');
++    interfaces.set('xmlns:ianaift', 'urn:ietf:params:xml:ns:yang:iana-if-type');
+ 
+     port = ET.SubElement(interfaces, 'interface');
+     iname = ET.SubElement(port, 'name');
+@@ -62,6 +63,9 @@ def loadnetconfqbv(configdata):
+     enable = ET.SubElement(port, 'enabled');
+     enable.text = 'true';
+ 
++    itype = ET.SubElement(port, 'type');
++    itype.text = 'ianaift:ethernetCsmacd';
++
+     admin = ET.SubElement(port, 'sched:gate-parameters');
+     gate_enable = ET.SubElement(admin, 'sched:gate-enabled');
+     gate_enable.text = configdata['enable'];
+@@ -126,11 +130,16 @@ def loadnetconfqbu(configdata):
+     interfaces = ET.Element('interfaces');
+     interfaces.set('xmlns', 'urn:ietf:params:xml:ns:yang:ietf-interfaces');
+     interfaces.set('xmlns:preempt', 'urn:ieee:std:802.1Q:yang:ieee802-dot1q-preemption');
++    interfaces.set('xmlns:ianaift', 'urn:ietf:params:xml:ns:yang:iana-if-type');
+     port = ET.SubElement(interfaces, 'interface');
+     iname = ET.SubElement(port, 'name');
+     iname.text = configdata['port'];
+     enable = ET.SubElement(port, 'enabled');
+     enable.text =  'true';
++
++    itype = ET.SubElement(port, 'type');
++    itype.text = 'ianaift:ethernetCsmacd';
++
+     tclist = ET.SubElement(port, 'preempt:frame-preemption-parameters');
+ 
+     for i in range(len(configdata['plist'])):
+@@ -155,12 +164,16 @@ def loadncqcisid(configdata):
+     bridge = ET.SubElement(bridges, 'bridge');
+     #we have to judge by port name
+     brname = ET.SubElement(bridge, 'name');
++    brtype = ET.SubElement(bridge, 'bridge-type');
++    address = ET.SubElement(bridge, 'address');
++
+     if (configdata['port'].find("eno") >= 0):
+         brname.text = 'enetc';
++        address.text = '00-00-00-00-00-01';
+     else:
+         brname.text = 'switch';
++        address.text = '00-00-00-00-00-02';
+ 
+-    brtype = ET.SubElement(bridge, 'bridge-type');
+     brtype.text = 'provider-edge-bridge';
+     component = ET.SubElement(bridge, 'component');
+     compname = ET.SubElement(component, 'name');
+@@ -355,12 +368,16 @@ def loadncqciset(configdata):
+     bridge = ET.SubElement(bridges, 'bridge');
+     #we have to judge by port name
+     brname = ET.SubElement(bridge, 'name');
++    address = ET.SubElement(bridge, 'address');
++    brtype = ET.SubElement(bridge, 'bridge-type');
++
+     if (configdata['port'].find("eno") >= 0):
+         brname.text = 'enetc';
++        address.text = '00-00-00-00-00-01';
+     else:
+         brname.text = 'switch';
++        address.text = '00-00-00-00-00-02';
+ 
+-    brtype = ET.SubElement(bridge, 'bridge-type');
+     brtype.text = 'provider-edge-bridge';
+     component = ET.SubElement(bridge, 'component');
+     compname = ET.SubElement(component, 'name');
+-- 
+2.17.1
+

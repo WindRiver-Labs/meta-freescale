@@ -1,0 +1,26 @@
+From 18407a42da367cec64cf3ef8a89bf460fcf280a9 Mon Sep 17 00:00:00 2001
+From: Po Liu <Po.Liu@nxp.com>
+Date: Fri, 13 Dec 2019 15:30:04 +0800
+Subject: [PATCH 12/15] tsntool: add tag v0.4
+
+Signed-off-by: Po Liu <Po.Liu@nxp.com>
+---
+ main/main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/main/main.c b/main/main.c
+index 364d84a..03a90a7 100644
+--- a/main/main.c
++++ b/main/main.c
+@@ -30,7 +30,7 @@ int VERBOSE_CONDITION = 0;
+ 
+ extern struct cli_cmd cli_commands[];
+ 
+-#define TSNTOOL_VERSION "V0.3"
++#define TSNTOOL_VERSION "V0.4"
+ 
+ const char *cli_version =
+ "tsntool " TSNTOOL_VERSION "\n"
+-- 
+2.17.1
+

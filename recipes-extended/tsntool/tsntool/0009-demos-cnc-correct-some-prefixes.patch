@@ -1,0 +1,35 @@
+From ae71fc0c8891a096eae0c85a54c47c7a1001c281 Mon Sep 17 00:00:00 2001
+From: Xiaolin He <xiaolin.he@nxp.com>
+Date: Tue, 3 Dec 2019 16:26:32 +0800
+Subject: [PATCH 09/15] demos:cnc: correct some prefixes
+
+Signed-off-by: Xiaolin He <xiaolin.he@nxp.com>
+---
+ demos/cnc/cnc.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/demos/cnc/cnc.py b/demos/cnc/cnc.py
+index 1fc64ec..e6080c6 100644
+--- a/demos/cnc/cnc.py
++++ b/demos/cnc/cnc.py
+@@ -259,7 +259,7 @@ def createsfixml(component, configdata):
+     findex.text = '0';
+ 
+     if (configdata.__contains__('flowmeterid')):
+-        fmiid = ET.SubElement(filterspec, 'sfsg:flow-meter-ref');
++        fmiid = ET.SubElement(filterspec, 'psfp:flow-meter-ref');
+         fmiid.text = configdata['flowmeterid'];
+ 
+ def createsgixml(component, configdata):
+@@ -290,7 +290,7 @@ def createsgixml(component, configdata):
+         entryindex = ET.SubElement(adminlist, 'psfp:index');
+         entryindex.text = str(i);
+         ename = ET.SubElement(adminlist, 'psfp:operation-name');
+-        ename.text = 'set-gate-and-ipv';
++        ename.text = 'psfp:set-gate-and-ipv';
+         cyclepara = ET.SubElement(adminlist, 'psfp:parameters');
+         egate = ET.SubElement(cyclepara, 'psfp:gate-state-value');
+         egate.text = configdata['entry'][i]['gate'];
+-- 
+2.17.1
+

@@ -7,9 +7,24 @@ DEPENDS = "cjson libnl readline"
 
 inherit pkgconfig
 
-SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/tsntool;protocol=https;nobranch=1"
-SRCREV = "30a0320eb4a1798ac3d6258a2e02d863e60a1582"
+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/tsntool;protocol=https;nobranch=1 \
+             file://0001-tsntool-optimize-the-condition-of-the-error-output.patch \
+             file://0002-libtsn-correct-the-return-value.patch \
+             file://0003-fix-parallel-build.patch \
+             file://0004-Makefile-use-PKG_CONFIG.patch \
+             file://0005-Makefile-add-libtsn.pc.in-file-and-add-install.patch \
+             file://0006-genl_tsn.h-use-the-defination-of-bool-in-stdbool.h.patch \
+             file://0007-sample-add-pktgen-scripts-for-test.patch \
+             file://0008-demos-cnc-add-madatory-node-in-configuration.patch \
+             file://0009-demos-cnc-correct-some-prefixes.patch \
+             file://0010-demos-cnc-change-operation-mode-from-replace-to-merg.patch \
+             file://0011-demo-cnc-limit-Qci-config-index-with-DEC-values.patch \
+             file://0012-tsntool-add-tag-v0.4.patch \
+             file://0015-tsntool-fix-basetime-get-seconds.decimalseconds-valu.patch \
+"
 
+SRCREV = "30a0320eb4a1798ac3d6258a2e02d863e60a1582"
 S = "${WORKDIR}/git"
 
 do_configure[depends] += "virtual/kernel:do_shared_workdir"

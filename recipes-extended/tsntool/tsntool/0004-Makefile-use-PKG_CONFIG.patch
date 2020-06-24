@@ -1,0 +1,36 @@
+From dcbd9a0f30a8be6f435616af5e4c316a52480d9d Mon Sep 17 00:00:00 2001
+From: Heiko Thiery <heiko.thiery@kontron.com>
+Date: Sat, 19 Oct 2019 09:24:54 +0200
+Subject: [PATCH 04/15] Makefile: use PKG_CONFIG
+
+Signed-off-by: Heiko Thiery <heiko.thiery@kontron.com>
+---
+ Makefile | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index fcf6315..c5ea0c8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,14 +1,15 @@
++PKG_CONFIG ?= pkg-config
+ LIB_CFLAGS   = $(CFLAGS)
+ LIB_LDFLAGS  ?= $(LDFLAGS)
+ LIB_CFLAGS  += -Wall -Wextra -g -fstack-protector-all -Ilib -fPIC
+-LIB_CFLAGS  += -Iinclude $(shell pkg-config --cflags libnl-3.0 libnl-genl-3.0) $(shell pkg-config --cflags libcjson) -Imain
++LIB_CFLAGS  += -Iinclude $(shell $(PKG_CONFIG) --cflags libnl-3.0 libnl-genl-3.0) $(shell $(PKG_CONFIG) --cflags libcjson) -Imain
+ #LIB_LDFLAGS += -lnl-3
+ 
+ BIN_CFLAGS   = $(CFLAGS)
+ BIN_LDFLAGS  = $(LDFLAGS)
+ BIN_CFLAGS  += -Wall -Wextra -Wno-error=unused-parameter -Wno-error=sign-compare -Wno-format-security -g -fstack-protector-all -Imain
+-BIN_CFLAGS  += $(shell pkg-config --cflags libnl-3.0 libnl-genl-3.0 libcjson) -Iinclude
+-BIN_LDFLAGS += -ltsn $(shell pkg-config --libs libnl-3.0 libnl-genl-3.0 libcjson) -lpthread -lm -lrt
++BIN_CFLAGS  += $(shell $(PKG_CONFIG) --cflags libnl-3.0 libnl-genl-3.0 libcjson) -Iinclude
++BIN_LDFLAGS += -ltsn $(shell $(PKG_CONFIG) --libs libnl-3.0 libnl-genl-3.0 libcjson) -lpthread -lm -lrt
+ BIN_LDFLAGS += -lreadline -ltermcap -L.
+ BIN_LDFLAGS += -Wl,-rpath,$(shell pwd)         # Compiled lib at local folder
+ 
+-- 
+2.17.1
+

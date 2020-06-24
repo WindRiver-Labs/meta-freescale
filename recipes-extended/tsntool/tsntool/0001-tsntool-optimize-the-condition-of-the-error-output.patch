@@ -1,0 +1,32 @@
+From 9f3e58646547e8c4c1f73f4011774f75337a893f Mon Sep 17 00:00:00 2001
+From: Xiaolin He <xiaolin.he@nxp.com>
+Date: Wed, 9 Oct 2019 11:09:24 +0800
+Subject: [PATCH 01/15] tsntool: optimize the condition of the error output
+
+The error log shouldn't be printed when using the disable parameter.
+
+Signed-off-by: Xiaolin He <xiaolin.he@nxp.com>
+---
+ main/cmd.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/main/cmd.c b/main/cmd.c
+index 75e1720..eb410ed 100644
+--- a/main/cmd.c
++++ b/main/cmd.c
+@@ -1155,9 +1155,10 @@ int cli_cmd_streamid_set(UNUSED int argc, UNUSED char *argv[], UNUSED int cmdnum
+ 
+ 	case STREAMID_IP:
+ 	default:
+-		loge("Type do not supported!");
+-		if (enable)
++		if (enable) {
++			loge("Type do not supported!");
+ 			return -1;
++		}
+ 	}
+ 
+ 	streamid.handle = streamhandle;
+-- 
+2.17.1
+

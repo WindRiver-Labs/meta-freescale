@@ -1,0 +1,40 @@
+From 65d86c792fa46b36383667981c2c8acc78365050 Mon Sep 17 00:00:00 2001
+From: Xiaolin He <xiaolin.he@nxp.com>
+Date: Wed, 11 Dec 2019 11:05:26 +0800
+Subject: [PATCH 10/15] demos:cnc: change operation mode from replace to merge
+
+This change is made for Netopeer2 and sysrepo-tsn. Netopeer support
+edit-config with replace mode in Qbv and Qbu because of the work
+that transAPI has done. Nether of netopeer2 and sysrepo-tsn support
+replace mode. In OpenIL, transAPI would be replaced by sysrepo-tsn.
+
+Edit-config operation in replace mode will delete all the other
+configuration. In cnc demo, tsn feature was set port by port.
+So, edit-config operation should use merge mode to avoid flushing
+previous configuration.
+
+For more info of sysrepo-tsn and transAPI, please visit following links:
+sysrepo-tsn: https://bitbucket.sw.nxp.com/projects/DNIND/repos/sysrepo-tsn/browse
+transAPI: https://bitbucket.sw.nxp.com/projects/DNIND/repos/transapi/browse
+
+Signed-off-by: Xiaolin He <xiaolin.he@nxp.com>
+---
+ demos/cnc/cnc.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/demos/cnc/cnc.py b/demos/cnc/cnc.py
+index e6080c6..952526c 100644
+--- a/demos/cnc/cnc.py
++++ b/demos/cnc/cnc.py
+@@ -38,7 +38,7 @@ def loadNetconf(xmlstr, device):
+     #start the netconf request
+     session = netconf.Session.connect(device, int('830'), str('root'))
+     dstype = netconf.RUNNING
+-    status = session.editConfig(target=dstype, source=xmlstr, defop=netconf.NC_EDIT_DEFOP_REPLACE,
++    status = session.editConfig(target=dstype, source=xmlstr, defop=netconf.NC_EDIT_DEFOP_MERGE,
+ 	erropt=netconf.NC_EDIT_ERROPT_NOTSET, testopt=netconf.NC_EDIT_TESTOPT_TESTSET)
+     print('editconfig %s feedback: %s\n'%(dstype, status));
+     getfeedback = session.getConfig(dstype);
+-- 
+2.17.1
+

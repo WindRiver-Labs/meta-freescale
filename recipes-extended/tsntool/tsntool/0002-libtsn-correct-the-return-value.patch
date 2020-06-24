@@ -1,0 +1,28 @@
+From 465e7c40c56d677710ef091f619dc7f7cb2e1070 Mon Sep 17 00:00:00 2001
+From: Xiaolin He <xiaolin.he@nxp.com>
+Date: Tue, 15 Oct 2019 11:23:38 +0800
+Subject: [PATCH 02/15] libtsn: correct the return value
+
+A negtive value should be returned if the operation failed.
+
+Signed-off-by: Xiaolin He <xiaolin.he@nxp.com>
+---
+ lib/tsnnl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/tsnnl.c b/lib/tsnnl.c
+index 05254f8..e496379 100644
+--- a/lib/tsnnl.c
++++ b/lib/tsnnl.c
+@@ -364,7 +364,7 @@ int get_tsn_record(struct tsn_conf_record *record)
+ 			free(json_data);
+ 			flock(fp->_fileno, LOCK_UN);
+ 			fclose(fp);
+-			return FALSE;
++			return -1;
+ 		}
+ 	} else {
+ 		lloge("malloc error");
+-- 
+2.17.1
+

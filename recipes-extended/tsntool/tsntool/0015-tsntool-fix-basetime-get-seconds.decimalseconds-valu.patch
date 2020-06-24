@@ -1,0 +1,67 @@
+From ca2d8fb348bb54960d706177108c43ae213e0063 Mon Sep 17 00:00:00 2001
+From: Po Liu <Po.Liu@nxp.com>
+Date: Thu, 9 Jan 2020 15:16:16 +0800
+Subject: [PATCH 15/15] tsntool: fix basetime get seconds.decimalseconds value
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Wrote from laurent.brando@nxp.com:
+"I just gave the new format a try:
+
+I’m building the basetime by reading the ptp time seconds part and adding 125us (in blue below)
+Also I’m printing out the value returned by the get_seconds_time() function (in red below).
+
+Does it look correct to you ?
+
+"
+port 1 offset 000125 gate list 00001000b 125000 11110111b 125000
+applying Qbv setting from qbvswp1.txt on swp1 (now 1577801027, basetime 1577801037.000125)
+info: basetime 1577801037125000000
+"
+"
+
+The right expression should be:
+1.125 means 1s.125ms.
+1.000125 means 12.125us.
+
+The format should be:
+
+Seconds.decimalseconds Example: 115.038675
+
+Signed-off-by: Po Liu <Po.Liu@nxp.com>
+---
+ main/cmd.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/main/cmd.c b/main/cmd.c
+index 9238026..2096c02 100644
+--- a/main/cmd.c
++++ b/main/cmd.c
+@@ -424,15 +424,20 @@ uint64_t get_seconds_time(char *optbuf)
+ 
+ 	pt = strrchr(optarg, '.');
+ 	if (pt) {
++		int i = 0;
++
+ 		basetimel = strtoul(pt + 1, NULL, 10);
+ 		strncpy(bufs, optbuf, pt - optbuf);
+-
++		pt++;
++		while (*(pt++) == '0') i++;
+ 		basetimeh = strtoul(bufs, NULL, 10);
+ 		while (basetimel && basetimel < 1000000000)
+ 			basetimel *= 10;
+-
+-		while (basetimel > 1000000000)
++		basetimel /= 10;
++		while (i) {
+ 			basetimel /= 10;
++			i--;
++		}
+ 
+ 		basetime = basetimeh * 1000000000 + basetimel;
+ 	} else {
+-- 
+2.17.1
+
