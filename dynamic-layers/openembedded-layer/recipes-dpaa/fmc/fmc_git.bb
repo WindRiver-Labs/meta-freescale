@@ -6,8 +6,12 @@ PR = "r2"
 
 DEPENDS = "libxml2 fmlib tclap"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/fmc;nobranch=1"
 SRCREV = "c7576ab7fb6fb09b68ebc40531e5452fc89e5cd5"
+SRC_URI += "file://0001-Use-MIT-license-for-config-files.patch \
+            file://0002-Use-MIT-license-for-lexical-analyzer-files.patch \
+           "
 
 S = "${WORKDIR}/git"
 
