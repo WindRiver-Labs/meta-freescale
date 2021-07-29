@@ -1,0 +1,31 @@
+From 0cd2687f56a77bbe8234e1d9875e61c0289f3fa9 Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Thu, 29 Jul 2021 13:45:24 +0800
+Subject: [PATCH] odp-module: add txqueue parameter for function
+ kni_net_tx_timeout()
+
+This issue is introduced by upstream commit 0290bd291cc0
+("netdev: pass the stuck queue to the timeout handler"), so it
+is need to add txqueue parameter for function kni_net_tx_timeout().
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ kern/kni_net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kern/kni_net.c b/kern/kni_net.c
+index b4cbfa99b..cd87275e5 100644
+--- a/kern/kni_net.c
++++ b/kern/kni_net.c
+@@ -538,7 +538,7 @@ drop:
+  * Deal with a transmit timeout.
+  */
+ static void
+-kni_net_tx_timeout (struct net_device *dev)
++kni_net_tx_timeout(struct net_device *dev, unsigned int txqueue)
+ {
+ 	struct kni_dev *kni = netdev_priv(dev);
+ 
+-- 
+2.17.1
+

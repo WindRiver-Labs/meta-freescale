@@ -13,4 +13,6 @@ do_install () {
     install -m 755 ${S}/kern/odpfsl_kni.ko ${D}/lib/modules/${KERNEL_VERSION}/odp
 }
 
+SRC_URI += "file://0001-odp-module-add-txqueue-parameter-for-function-kni_ne.patch"
+
 PKG_${PN} = "kernel-module-${PN}"
