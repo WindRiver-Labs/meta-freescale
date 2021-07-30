@@ -1,0 +1,31 @@
+From 36bb9b59c938fd976ce0443b325d2c82b682b000 Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Fri, 30 Jul 2021 00:41:57 +0800
+Subject: [PATCH] example: lpm-ipfwd: assert FSL_CRC64_ECMA_182 with static
+
+When build opd package, there is below error:
+multiple definition of `FSL_CRC64_ECMA_182'
+Because FSL_CRC64_ECMA_182 is only used in local static
+function, also add static assertion to it.
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ example/lpm-ipfwd/lpmlib/include/fsl_crc64.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/example/lpm-ipfwd/lpmlib/include/fsl_crc64.h b/example/lpm-ipfwd/lpmlib/include/fsl_crc64.h
+index c8ad43c84..6b19746d6 100644
+--- a/example/lpm-ipfwd/lpmlib/include/fsl_crc64.h
++++ b/example/lpm-ipfwd/lpmlib/include/fsl_crc64.h
+@@ -62,7 +62,7 @@ struct fman_crc64_t {
+ 	uint64_t initial;
+ 	uint64_t table[1 << 8];
+ };
+-struct fman_crc64_t FSL_CRC64_ECMA_182;
++static struct fman_crc64_t FSL_CRC64_ECMA_182;
+ #define DECLARE_FMAN_CRC64_TABLE() \
+ struct fman_crc64_t FSL_CRC64_ECMA_182 = { \
+ 	0xFFFFFFFFFFFFFFFFULL, \
+-- 
+2.17.1
+
