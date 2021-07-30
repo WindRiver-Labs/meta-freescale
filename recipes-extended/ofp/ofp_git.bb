@@ -6,7 +6,11 @@ SECTION = "console/network"
 LICENSE = "BSD-3-Clause"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=fbe4957c430eed6cc20521d4eb429fae"
 
+FILESEXTRAPATHS_prepend := "${THISDIR}/ofp:"
+
 SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/ofp;nobranch=1"
+
+SRC_URI += "file://0001-ofpwq-assert-ofp_max_linkhdr-with-static.patch"
 
 SRCREV = "fe66f4659f7d356f7aa73a8fb32fcf67c6cf1108"
 
