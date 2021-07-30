@@ -1,0 +1,62 @@
+From 51da9a1704a2e142f6c5386bdd0492570f2065bc Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Thu, 29 Jul 2021 23:40:11 +0800
+Subject: [PATCH] odp: api: define ODP_ALIGNED_CACHE macro
+
+When build opd package, there is below error:
+multiple definition of 'ODP_ALIGNED_CACHE'
+Because ODP_ALIGNED_CACHE is considered as a variable.
+But in fact, it should be a macro definition of struct align,
+so add the definition of ODP_ALIGNED_CACHE to fix the building
+error.
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ include/odp/api/spec/align.h                                  | 4 +++-
+ platform/linux-dpaa2/include/odp/api/plat/sdk/main/dpaa2.h    | 2 +-
+ .../include/odp/api/plat/sdk/rts/dpaa2_malloc_heap.h          | 1 +
+ 3 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/include/odp/api/spec/align.h b/include/odp/api/spec/align.h
+index cbe7d674d..76f5753ad 100644
+--- a/include/odp/api/spec/align.h
++++ b/include/odp/api/spec/align.h
+@@ -61,7 +61,9 @@ extern "C" {
+  * @def ODP_ALIGNED_CACHE
+  * Defines type/struct/variable to be cache line size aligned
+  */
+-
++#define 	ODP_PAGE_SIZE   4096
++#define 	ODP_ALIGNED(x)   __attribute__((__aligned__(x)))
++#define 	ODP_ALIGNED_CACHE   ODP_ALIGNED(ODP_CACHE_LINE_SIZE)
+ /**
+  * @def ODP_ALIGNED_PAGE
+  * Defines type/struct/variable to be page size aligned
+diff --git a/platform/linux-dpaa2/include/odp/api/plat/sdk/main/dpaa2.h b/platform/linux-dpaa2/include/odp/api/plat/sdk/main/dpaa2.h
+index acbdc9e8c..c44042515 100644
+--- a/platform/linux-dpaa2/include/odp/api/plat/sdk/main/dpaa2.h
++++ b/platform/linux-dpaa2/include/odp/api/plat/sdk/main/dpaa2.h
+@@ -23,7 +23,7 @@ extern "C" {
+ #include <odp/api/hints.h>
+ #include <odp/api/std_types.h>
+ #include <odp/api/plat/sdk/common/dpaa2_common.h>
+-
++#include <odp/api/align.h>
+ 
+ /*! DPAA2 flags related to initialization */
+ enum {
+diff --git a/platform/linux-dpaa2/include/odp/api/plat/sdk/rts/dpaa2_malloc_heap.h b/platform/linux-dpaa2/include/odp/api/plat/sdk/rts/dpaa2_malloc_heap.h
+index 88a3aa85b..134817a7f 100644
+--- a/platform/linux-dpaa2/include/odp/api/plat/sdk/rts/dpaa2_malloc_heap.h
++++ b/platform/linux-dpaa2/include/odp/api/plat/sdk/rts/dpaa2_malloc_heap.h
+@@ -39,6 +39,7 @@
+ #include <odp/api/plat/sdk/common/dpaa2_queue.h>
+ #include <odp/api/spinlock.h>
+ #include <odp/api/plat/sdk/common/dpaa2_common.h>
++#include <odp/api/align.h>
+ 
+ /* Number of free lists per heap, grouped by size. */
+ #define DPAA2_HEAP_NUM_FREELISTS  5
+-- 
+2.17.1
+
