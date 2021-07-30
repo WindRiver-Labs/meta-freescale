@@ -1,0 +1,45 @@
+From 4e88abc3332e272ba4d5b0fbd54d694898253d01 Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Fri, 30 Jul 2021 00:29:06 +0800
+Subject: [PATCH] test: validation: assert seq with static
+
+When build opd package, there is below error:
+multiple definition of `seq'
+Because variable seq' is only used in local c file,
+add static assertion to it.
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ test/validation/classification/odp_classification_test_pmr.c | 2 +-
+ test/validation/classification/odp_classification_tests.c    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/test/validation/classification/odp_classification_test_pmr.c b/test/validation/classification/odp_classification_test_pmr.c
+index 7c7d07ea0..48363ee80 100644
+--- a/test/validation/classification/odp_classification_test_pmr.c
++++ b/test/validation/classification/odp_classification_test_pmr.c
+@@ -15,7 +15,7 @@
+ static odp_pool_t pkt_pool;
+ 
+ /** sequence number of IP packets */
+-odp_atomic_u32_t seq;
++static odp_atomic_u32_t seq;
+ 
+ int classification_suite_pmr_init(void)
+ {
+diff --git a/test/validation/classification/odp_classification_tests.c b/test/validation/classification/odp_classification_tests.c
+index ed45518be..f435c014d 100644
+--- a/test/validation/classification/odp_classification_tests.c
++++ b/test/validation/classification/odp_classification_tests.c
+@@ -21,7 +21,7 @@ static odp_pool_t pool_default;
+ static odp_pktio_t pktio_loop;
+ 
+ /** sequence number of IP packets */
+-odp_atomic_u32_t seq;
++static odp_atomic_u32_t seq;
+ 
+ int classification_suite_init(void)
+ {
+-- 
+2.17.1
+

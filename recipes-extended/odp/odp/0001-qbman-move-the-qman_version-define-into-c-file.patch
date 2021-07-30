@@ -1,0 +1,43 @@
+From f0b1e360cd19d1126f66a1290aa34feed92c1ea5 Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Thu, 29 Jul 2021 23:15:48 +0800
+Subject: [PATCH] qbman: move the qman_version define into .c file
+
+When build opd package, there is below error:
+multiple definition of `qman_version'
+because qman_version variable is only used in qbman_portal.c,
+delete the definition from .h file, and then move it into .c file.
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ driver/qbman_portal.c | 1 +
+ driver/qbman_portal.h | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.c b/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.c
+index 1b2cbaa..e742576 100644
+--- a/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.c
++++ b/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.c
+@@ -112,6 +112,7 @@ static struct qbman_swp *portal_idx_map[MAX_QBMAN_PORTALS];
+ #define unlikely(x)	__builtin_expect(!!(x), 0)
+ #endif
+ 
++static uint32_t qman_version;
+ /*********************************/
+ /* Portal constructor/destructor */
+ /*********************************/
+diff --git a/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.h b/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.h
+index 86881e3..4a395da 100644
+--- a/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.h
++++ b/platform/linux-dpaa2/flib/qbman/driver/qbman_portal.h
+@@ -29,7 +29,6 @@
+ #include "qbman_sys.h"
+ #include <fsl_qbman_portal.h>
+ 
+-uint32_t qman_version;
+ #define QMAN_REV_4000   0x04000000
+ #define QMAN_REV_4100   0x04010000
+ #define QMAN_REV_4101   0x04010001
+-- 
+2.17.1
+
