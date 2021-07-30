@@ -15,7 +15,12 @@ git://source.codeaurora.org/external/qoriq/qoriq-components/flib;nobranch=1;name
 "
 
 SRC_URI += "file://0001-Fix-this-build-error.patch \
-	    file://0002-fsl_mc_sys.h-drop-no-existed-file-libio.h.patch"
+	    file://0002-fsl_mc_sys.h-drop-no-existed-file-libio.h.patch \
+	    file://0001-qbman-move-the-qman_version-define-into-c-file.patch \
+	    file://0001-odp-api-define-ODP_ALIGNED_CACHE-macro.patch \
+	    file://0001-test-validation-assert-seq-with-static.patch \
+	    file://0001-example-lpm-ipfwd-assert-FSL_CRC64_ECMA_182-with-sta.patch \
+	    file://0001-odp-lpm-ipfwd-assert-dev_map_list-with-static.patch"
 
 SRCREV = "0bda2c9736a72ef41a411e193bc31487ecce6731"
 
