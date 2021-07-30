@@ -1,0 +1,45 @@
+From e8e6881437bb595137973f6b53941f56fb762b31 Mon Sep 17 00:00:00 2001
+From: Meng Li <Meng.Li@windriver.com>
+Date: Fri, 30 Jul 2021 00:58:54 +0800
+Subject: [PATCH] odp: lpm-ipfwd: assert dev_map_list with static
+
+When build opd package, there is below error:
+multiple definition of `dev_map_list'
+Because dev_map_list is only used in local static
+function, also add static assertion to it.
+
+Signed-off-by: Meng Li <Meng.Li@windriver.com>
+---
+ example/lpm-ipfwd/app/odp_lpmfwd.c         | 2 +-
+ platform/linux-dpaa2/sdk/dpaa2_sec_ldpaa.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/example/lpm-ipfwd/app/odp_lpmfwd.c b/example/lpm-ipfwd/app/odp_lpmfwd.c
+index 64c60d366..3894d3fd6 100644
+--- a/example/lpm-ipfwd/app/odp_lpmfwd.c
++++ b/example/lpm-ipfwd/app/odp_lpmfwd.c
+@@ -65,7 +65,7 @@ struct odp_dev_map_list {
+ 	struct odp_dev_map *tqh_first;	/* first element */
+ 	struct odp_dev_map **tqh_last;	/* addr of last next element */
+ };
+-struct odp_dev_map_list dev_map_list;
++static struct odp_dev_map_list dev_map_list;
+ struct odp_dev_map	odp_dev_map[6];
+ 
+ struct ip_stack_t stack;
+diff --git a/platform/linux-dpaa2/sdk/dpaa2_sec_ldpaa.c b/platform/linux-dpaa2/sdk/dpaa2_sec_ldpaa.c
+index 3817372f2..aecc70ebb 100644
+--- a/platform/linux-dpaa2/sdk/dpaa2_sec_ldpaa.c
++++ b/platform/linux-dpaa2/sdk/dpaa2_sec_ldpaa.c
+@@ -54,7 +54,7 @@ struct sec_dev_list {
+ };
+ 
+ TAILQ_HEAD(sec_map_list, sec_dev_list);
+-struct sec_map_list dev_map_list;
++static struct sec_map_list dev_map_list;
+ struct sec_dev_list *sec_dev_map, *last_used_dev = NULL;
+ 
+ void *dpaa2_sec_simple_contig_fd_to_mbuf(const struct qbman_fd *fd,
+-- 
+2.17.1
+
